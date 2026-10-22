@@ -1,0 +1,23 @@
+{
+  "appId": "com.yildizsouls.oyun",
+  "appName": "Yıldız Souls",
+  "webDir": "www",
+  "backgroundColor": "#04050c",
+  "loggingBehavior": "none",
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "capacitor",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": false,
+    "webContentsDebuggingEnabled": false
+  },
+  "ios": {
+    "contentInset": "never",
+    "scrollEnabled": false,
+    "webContentsDebuggingEnabled": false,
+    "preferredContentMode": "mobile"
+  }
+}

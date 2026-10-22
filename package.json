@@ -1,0 +1,26 @@
+{
+  "name": "yildiz-souls",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Yıldız Souls — iOS ve Android oyun projesi (Capacitor)",
+  "scripts": {
+    "kurulum": "npm install && npx cap add android && npx cap add ios && npm run yerel && npm run ikonlar && npx cap sync",
+    "yerel": "node scripts/native-ayarlar.js",
+    "ikonlar": "npx @capacitor/assets generate --iconBackgroundColor '#04050c' --iconBackgroundColorDark '#04050c' --splashBackgroundColor '#04050c' --splashBackgroundColorDark '#04050c'",
+    "esitle": "npx cap sync",
+    "android": "npx cap open android",
+    "ios": "npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/preferences": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.0.0"
+  }
+}

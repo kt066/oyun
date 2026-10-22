@@ -1,0 +1,68 @@
+# Yıldız Souls: Mac olmadan iOS derlemesi ve TestFlight'a yükleme (Codemagic)
+# Önce KURULUM-IPHONE.md dosyasındaki 1-5. adımları yap.
+workflows:
+  ios-testflight:
+    name: iOS → TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: YildizSoulsKey        # Codemagic'te API anahtarına verdiğin ad
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.yildizsouls.oyun # capacitor.config.json içindeki appId ile aynı olmalı
+      vars:
+        APP_STORE_APPLE_ID: "0000000000"        # App Store Connect → Uygulama → Genel Bilgiler → Apple ID
+      node: 22
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Paketleri kur
+        script: npm install
+      - name: iOS projesini oluştur
+        script: |
+          npx cap add ios --packagemanager CocoaPods
+          node scripts/native-ayarlar.js
+          npx @capacitor/assets generate --ios --iconBackgroundColor '#04050c' --splashBackgroundColor '#04050c' --splashBackgroundColorDark '#04050c'
+          npx cap sync ios
+      - name: İmzalama profillerini uygula
+        script: |
+          xcode-project use-profiles --custom-export-options='{"testFlightInternalTestingOnly": true}'
+      - name: Derleme numarasını artır
+        script: |
+          SON=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo 0)
+          YENI=$((SON + 1))
+          sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = $YENI;/g" ios/App/App.xcodeproj/project.pbxproj
+          echo "Derleme numarası: $YENI"
+      - name: IPA oluştur
+        script: xcode-project build-ipa --workspace ios/App/App.xcworkspace --scheme App
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false             # yalnızca dahili test: Apple incelemesi gerekmez
+
+  android-apk:
+    name: Android → APK (test için)
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    environment:
+      node: 22
+      java: 21
+    scripts:
+      - name: Paketleri kur
+        script: npm install
+      - name: Android projesini oluştur
+        script: |
+          npx cap add android
+          node scripts/native-ayarlar.js
+          npx @capacitor/assets generate --android --iconBackgroundColor '#04050c' --splashBackgroundColor '#04050c' --splashBackgroundColorDark '#04050c'
+          npx cap sync android
+      - name: APK oluştur
+        script: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+    artifacts:
+      - android/app/build/outputs/apk/debug/*.apk

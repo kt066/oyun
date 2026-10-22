@@ -1,0 +1,89 @@
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Varsayılan: hiçbir yazma izni yok. Yazma izni yalnızca en sondaki yayın işinde.
+permissions:
+  contents: read
+
+concurrency:
+  group: android-apk
+  cancel-in-progress: true
+
+jobs:
+  derle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # npm paketleri GitHub anahtarını okuyamasın
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Paketleri kur
+        run: npm install --no-audit --no-fund
+      - name: Android projesini oluştur
+        run: |
+          npx cap add android
+          node scripts/native-ayarlar.js
+          npx @capacitor/assets generate --android --iconBackgroundColor '#04050c' --splashBackgroundColor '#04050c' --splashBackgroundColorDark '#04050c'
+          npx cap sync android
+      - name: APK derle (release)
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+      - name: İmzala
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          IN=android/app/build/outputs/apk/release/app-release-unsigned.apk
+          "$BT/zipalign" -p -f 4 "$IN" hizali.apk
+          if [ -n "$KEYSTORE_B64" ]; then
+            umask 077
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/ks.jks"
+            "$BT/apksigner" sign --ks "$RUNNER_TEMP/ks.jks" --ks-pass env:KS_PASS --key-pass env:KS_PASS --ks-key-alias "$KEY_ALIAS" --out YildizSouls.apk hizali.apk
+            rm -f "$RUNNER_TEMP/ks.jks"
+          else
+            echo "::warning::İmza anahtarı tanımlı değil; geçici bir anahtarla imzalanıyor. Güncellemeler eski sürümün üzerine kurulamaz."
+            keytool -genkeypair -keystore "$RUNNER_TEMP/gecici.jks" -storepass gecici123 -keypass gecici123 -alias gecici -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Yildiz Souls Test"
+            "$BT/apksigner" sign --ks "$RUNNER_TEMP/gecici.jks" --ks-pass pass:gecici123 --ks-key-alias gecici --out YildizSouls.apk hizali.apk
+          fi
+          "$BT/apksigner" verify --print-certs YildizSouls.apk | head -3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: YildizSouls-apk
+          path: YildizSouls.apk
+          retention-days: 30
+
+  yayinla:
+    needs: derle
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write                  # yalnızca indirme bağlantısını güncellemek için
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: YildizSouls-apk
+      - name: İndirme bağlantısını güncelle
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sha256sum YildizSouls.apk | tee YildizSouls.apk.sha256
+          gh release delete apk --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
+          gh release create apk YildizSouls.apk YildizSouls.apk.sha256 --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Yıldız Souls (Android test sürümü)" \
+            --notes "Android telefonda bu sayfayı açıp YildizSouls.apk dosyasına dokun, indir ve yükle."
