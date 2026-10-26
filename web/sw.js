@@ -1,5 +1,5 @@
 // Yıldız Souls: çevrimdışı çalışma. Yalnızca oyunun kendi dosyaları önbelleğe alınır.
-const SURUM = 'yildiz-souls-v3';
+const SURUM = 'yildiz-souls-v4';
 const DOSYALAR = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 const IZINLI = new Set(DOSYALAR.map(f => new URL(f, self.registration.scope).pathname));
 
