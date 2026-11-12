@@ -1,4 +1,4 @@
-name: Android APK
+name: Android APK ve Play AAB
 
 on:
   push:
@@ -38,11 +38,30 @@ jobs:
           node scripts/native-ayarlar.js
           npx @capacitor/assets generate --android --iconBackgroundColor '#04050c' --splashBackgroundColor '#04050c' --splashBackgroundColorDark '#04050c'
           npx cap sync android
-      - name: APK derle (release)
+      - name: Sürüm numarasını ayarla
+        run: |
+          sed -i "s/versionCode [0-9]*/versionCode ${{ github.run_number }}/" android/app/build.gradle
+          grep -n "versionCode\|versionName" android/app/build.gradle
+      - name: APK ve AAB derle (release)
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon
+          ./gradlew assembleRelease bundleRelease --no-daemon
+      - name: AAB imzala (Google Play yükleme anahtarı)
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          if [ -z "$KEYSTORE_B64" ]; then
+            echo "::warning::İmza anahtarı tanımlı değil; Google Play için AAB üretilmedi. Anahtarı ekleyip derlemeyi yeniden çalıştır."
+            exit 0
+          fi
+          umask 077
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/ks.jks"
+          jarsigner -keystore "$RUNNER_TEMP/ks.jks" -storepass:env KS_PASS -keypass:env KS_PASS -signedjar TerlikGalaksisi.aab android/app/build/outputs/bundle/release/app-release.aab "$KEY_ALIAS"
+          rm -f "$RUNNER_TEMP/ks.jks"
+          jarsigner -verify TerlikGalaksisi.aab | head -2
       - name: İmzala
         env:
           KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
@@ -55,18 +74,24 @@ jobs:
           if [ -n "$KEYSTORE_B64" ]; then
             umask 077
             echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/ks.jks"
-            "$BT/apksigner" sign --ks "$RUNNER_TEMP/ks.jks" --ks-pass env:KS_PASS --key-pass env:KS_PASS --ks-key-alias "$KEY_ALIAS" --out YildizSouls.apk hizali.apk
+            "$BT/apksigner" sign --ks "$RUNNER_TEMP/ks.jks" --ks-pass env:KS_PASS --key-pass env:KS_PASS --ks-key-alias "$KEY_ALIAS" --out TerlikGalaksisi.apk hizali.apk
             rm -f "$RUNNER_TEMP/ks.jks"
           else
             echo "::warning::İmza anahtarı tanımlı değil; geçici bir anahtarla imzalanıyor. Güncellemeler eski sürümün üzerine kurulamaz."
-            keytool -genkeypair -keystore "$RUNNER_TEMP/gecici.jks" -storepass gecici123 -keypass gecici123 -alias gecici -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Yildiz Souls Test"
-            "$BT/apksigner" sign --ks "$RUNNER_TEMP/gecici.jks" --ks-pass pass:gecici123 --ks-key-alias gecici --out YildizSouls.apk hizali.apk
+            keytool -genkeypair -keystore "$RUNNER_TEMP/gecici.jks" -storepass gecici123 -keypass gecici123 -alias gecici -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Terlik Galaksisi Test"
+            "$BT/apksigner" sign --ks "$RUNNER_TEMP/gecici.jks" --ks-pass pass:gecici123 --ks-key-alias gecici --out TerlikGalaksisi.apk hizali.apk
           fi
-          "$BT/apksigner" verify --print-certs YildizSouls.apk | head -3
+          "$BT/apksigner" verify --print-certs TerlikGalaksisi.apk | head -3
+      - uses: actions/upload-artifact@v4
+        if: ${{ hashFiles('TerlikGalaksisi.aab') != '' }}
+        with:
+          name: TerlikGalaksisi-aab
+          path: TerlikGalaksisi.aab
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         with:
-          name: YildizSouls-apk
-          path: YildizSouls.apk
+          name: TerlikGalaksisi-apk
+          path: TerlikGalaksisi.apk
           retention-days: 30
 
   yayinla:
@@ -77,13 +102,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: YildizSouls-apk
+          name: TerlikGalaksisi-apk
       - name: İndirme bağlantısını güncelle
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sha256sum YildizSouls.apk | tee YildizSouls.apk.sha256
+          sha256sum TerlikGalaksisi.apk | tee TerlikGalaksisi.apk.sha256
           gh release delete apk --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
-          gh release create apk YildizSouls.apk YildizSouls.apk.sha256 --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
-            --title "Yıldız Souls (Android test sürümü)" \
-            --notes "Android telefonda bu sayfayı açıp YildizSouls.apk dosyasına dokun, indir ve yükle."
+          gh release create apk TerlikGalaksisi.apk TerlikGalaksisi.apk.sha256 --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Terlik Galaksisi (Android test sürümü)" \
+            --notes "Android telefonda bu sayfayı açıp TerlikGalaksisi.apk dosyasına dokun, indir ve yükle."

@@ -1,4 +1,4 @@
-# Yıldız Souls: Mac olmadan iOS derlemesi ve TestFlight'a yükleme (Codemagic)
+# Terlik Galaksisi: Mac olmadan iOS derlemesi ve TestFlight'a yükleme (Codemagic)
 # Önce KURULUM-IPHONE.md dosyasındaki 1-5. adımları yap.
 workflows:
   ios-testflight:
@@ -6,11 +6,11 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 60
     integrations:
-      app_store_connect: YildizSoulsKey        # Codemagic'te API anahtarına verdiğin ad
+      app_store_connect: TerlikGalaksisiKey        # Codemagic'te API anahtarına verdiğin ad
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.yildizsouls.oyun # capacitor.config.json içindeki appId ile aynı olmalı
+        bundle_identifier: com.terlikgalaksisi.oyun # capacitor.config.json içindeki appId ile aynı olmalı
       vars:
         APP_STORE_APPLE_ID: "0000000000"        # App Store Connect → Uygulama → Genel Bilgiler → Apple ID
       node: 22

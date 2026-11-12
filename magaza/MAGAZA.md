@@ -1,15 +1,18 @@
-# Yıldız Souls: Mağaza Bilgileri
+# Terlik Galaksisi: Mağaza Bilgileri
 
-## İsim hakkında önce bir not
+## İsim ve kurgu notu
 
-"Souls" kelimesi, Bandai Namco/FromSoftware'in **Dark Souls** serisiyle güçlü biçimde ilişkilendiriliyor. Mağaza incelemesinde ya da marka sahibinden itiraz gelme riski var. Ben avukat değilim. Yayından önce bir marka avukatına danışmanı ya da adı değiştirmeyi düşünmeni öneririm. Alternatifler: **Yıldız Kemal**, **Kemal Uzayda**, **Mantı Galaksisi**, **Batıkent'ten Yıldızlara**. Adı değiştirirsen `capacitor.config.json` içindeki `appName` alanını da güncelle.
+Uygulama adı **Terlik Galaksisi**. Yayından önce şunları kendin kontrol et (ben avukat değilim, bu genel bilgi):
+
+- TÜRKPATENT marka sorgusunda ("Terlik Galaksisi" ve "Tosbik") ve Google Play'de aynı adlı uygulama var mı bak.
+- Oyundaki karakter, yer ve kurum adları uydurmadır; gerçek kişi, marka veya kuruluşla bağlantılı değildir. Mağaza açıklamasının sonundaki kurgu notunu silme.
 
 ---
 
 ## Ortak metinler
 
 **Uygulama adı** (en fazla 30 karakter)
-Yıldız Souls
+Terlik Galaksisi
 
 **Alt başlık / iOS Subtitle** (en fazla 30 karakter)
 Mantı için galaksiyi geç
@@ -18,25 +21,25 @@ Mantı için galaksiyi geç
 Karısını uzaylılar kaçırdı. Elinde kırmızı bir gemi ve yüzde 12 şans var.
 
 **Tanıtım metni / iOS Promotional Text** (en fazla 170 karakter)
-Gece 03:12'de tavandan mor ışık geldi, Ayşe gitti. 12 bölüm, 12 boss, 8 mini boss, 4 farklı son. Sıra numarası almadan kimse geçemez!
+Gece 03:12'de tavandan mor ışık geldi, Zümrüş gitti. 12 bölüm, 12 boss, 8 mini boss, 4 farklı son. Sıra numarası almadan kimse geçemez!
 
 **Uzun açıklama**
 
-Gece 03:12. Ankara, Batıkent. Uzaylılar Ayşe Hanım'ın meşhur mantısını duymuş ve kendisini alıp gitmiş. Geriye bir tek terlik, soğumuş bir çay ve hayatında ilk defa erken kalkmış bir Kemal kalmış.
+Gece 03:12. Terlikköy, Pabuçkent. Uzaylılar Zümrüş Hanım'ın meşhur mantısını duymuş ve kendisini alıp gitmiş. Geriye bir tek terlik, soğumuş bir çay ve hayatında ilk defa erken kalkmış bir Tosbik kalmış.
 
-Şirketin çay-simit bütçesiyle yapılan, Cem'in "kırmızı daha hızlı gider" diye boyadığı Yıldız-X'e atla ve galaksiyi geç.
+Şirketin çay-simit bütçesiyle yapılan, Cıbıl'ın "kırmızı daha hızlı gider" diye boyadığı Yıldız-X'e atla ve galaksiyi geç.
 
 **12 BÖLÜM, 12 BOSS**
 Hurdacı Taş Yutan'dan dizi kraliçesine, mangal efendisinden uzayın devlet dairesindeki Sıra Bekçisi'ne kadar her biri ayrı saldırılarla gelen boss'lar. Bazılarıyla gemiden inip kılıç düellosuna gireceksin.
 
 **8 MİNİ BOSS**
-Kapıcı Hüsnü ekmek fırlatır, Çaycı Rıza tepsiyi çevirir, Kornacı Taksici şeridine dalar, Kombi Arızası buhar fışkırtır. Her birinin kendi saldırısı var.
+Kapıcı Pıtır ekmek fırlatır, Çaycı Demli tepsiyi çevirir, Kornacı Taksici şeridine dalar, Kombi Arızası buhar fışkırtır. Her birinin kendi saldırısı var.
 
 **PAZARLIK YAP**
 Her boss'la savaşmak zorunda değilsin. Ruh ver, iksir ikram et ya da laf sok: üç kere ikna edersen kavga barışla biter.
 
-**KEMAL'İN YOLU**
-Hikâyedeki kararların oynanışı değiştiriyor. Cesaret yolu canın azaldıkça sertleştirir, Mizah yolu şansını artırır, Dostluk yolunda Cem'in çaycı dronu yanında savaşır ve Fatma Teyze balkondan iksir atar.
+**TOSBİK'İN YOLU**
+Hikâyedeki kararların oynanışı değiştiriyor. Cesaret yolu canın azaldıkça sertleştirir, Mizah yolu şansını artırır, Dostluk yolunda Cıbıl'ın çaycı dronu yanında savaşır ve Kıvırcık Teyze balkondan iksir atar.
 
 **ÇAY OCAĞI VE TILSIMLAR**
 Topladığın ruhlarla Gövde, Ateş Gücü, Pilotaj ve Gönül'ü geliştir. Nazar Boncuğu, Terlik Fırlatıcı, Kayınvalide'nin Duası gibi 14 tılsımdan kendi tarzına uyan üçünü tak.
@@ -47,7 +50,9 @@ Uzay Esnafı mı olacaksın, Mahalle Efsanesi mi? Kararların belirler.
 • Reklam yok, internet gerekmez
 • Veri toplamaz, hesap açtırmaz
 • Kolay, Normal ve Acımasız zorluk
-• Dokunmatik kontroller için tasarlandı
+• Dokunmatik kontroller için tasarlandı: bastığın yerde joystick çıkar
+
+Karakterler, kurumlar ve olaylar tamamen kurgusaldır; gerçek kişi veya kuruluşlarla ilgisi yoktur.
 
 **Anahtar kelimeler / iOS Keywords** (en fazla 100 karakter, virgülle)
 uzay,shooter,mantı,boss,komedi,türk,arcade,roguelite,gemi,mahalle,uzaylı,düello,rpg,çay

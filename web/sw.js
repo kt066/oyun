@@ -1,5 +1,5 @@
-// Yıldız Souls: çevrimdışı çalışma. Yalnızca oyunun kendi dosyaları önbelleğe alınır.
-const SURUM = 'yildiz-souls-v4';
+// Terlik Galaksisi: çevrimdışı çalışma. Yalnızca oyunun kendi dosyaları önbelleğe alınır.
+const SURUM = 'terlik-galaksisi-v5';
 const DOSYALAR = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 const IZINLI = new Set(DOSYALAR.map(f => new URL(f, self.registration.scope).pathname));
 
@@ -8,7 +8,7 @@ self.addEventListener('install', e => {
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
-    .then(ks => Promise.all(ks.filter(k => k.startsWith('yildiz-souls-') && k !== SURUM).map(k => caches.delete(k))))
+    .then(ks => Promise.all(ks.filter(k => (k.startsWith('yildiz-souls-')||k.startsWith('terlik-galaksisi-')) && k !== SURUM).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {

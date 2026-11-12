@@ -1,4 +1,4 @@
-# Yıldız Souls: Güvenlik İncelemesi
+# Terlik Galaksisi: Güvenlik İncelemesi
 
 İnceleme tarihi: 22 Ekim 2026 (iki tur). Kapsam: oyun kodu (web, mobil uygulama ve ana ekran web uygulaması sürümleri), çevrimdışı önbellek dosyası, Capacitor yapılandırması, yerel Android/iOS ayarları ve bulut derleme dosyaları (GitHub Actions, Codemagic).
 
