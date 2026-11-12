@@ -30,17 +30,18 @@ tap(){ adb shell input tap $1 $2; sleep ${3:-1}; }
 tap $((W*64/100)) $((H*49/100)) 1
 tap $((W/2)) $((H/2)) 2; adb exec-out screencap -p > out/03-menu.png
 # hikâye ve haritayı geç: GEÇ düğmesi, Enter ve ortaya dokunma karışık
-for i in $(seq 1 60); do
+for i in $(seq 1 90); do
   tap $((W*81/100)) $((H*6/100)) 0.5
-  adb shell input keyevent 66; sleep 0.5
+  adb shell input keyevent 66; sleep 0.4
+  adb shell input keyevent 8; sleep 0.4
   [ $((i % 6)) -eq 0 ] && tap $((W/2)) $((H/2)) 1
   [ $i -eq 10 ] && adb exec-out screencap -p > out/04-sonra.png
-  [ $i -eq 25 ] && adb exec-out screencap -p > out/05-oyun-oncesi.png
-  [ $i -eq 45 ] && adb exec-out screencap -p > out/06-oyun.png
+  [ $i -eq 40 ] && adb exec-out screencap -p > out/05-oyun-oncesi.png
+  [ $i -eq 80 ] && adb exec-out screencap -p > out/06-oyun.png
 done
 sleep 2
 # haritadan bölümü başlat: ortaya dokun (kalkış), girişi geç
-for i in $(seq 1 30); do
+for i in $(seq 1 45); do
   tap $((W/2)) $((H/2)) 1
   tap $((W*81/100)) $((H*6/100)) 0.5
   adb shell input keyevent 66; sleep 0.5
