@@ -2,6 +2,9 @@ name: Android emülatör testi
 
 on:
   workflow_dispatch:
+  push:
+    branches: [terlik-galaksisi]
+    paths: ['scripts/emulator-testi.sh', '.github/workflows/android-emulator-testi.yml']
 
 permissions:
   contents: read
