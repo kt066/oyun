@@ -49,3 +49,4 @@ adb shell dumpsys meminfo $P | grep -E "TOTAL|Native Heap|Java Heap" | head -4 |
 adb logcat -d > out/logcat-tam.txt
 grep -E "AndroidRuntime|FATAL|ANR in|Process .* has died|CONSOLE|chromium.*(Error|error)|Uncaught" out/logcat-tam.txt | head -40 | tee out/hatalar.txt
 echo "BITTI"
+# yeniden calistir 1794492734
