@@ -1,8 +1,8 @@
 {
-  "name": "yildiz-souls",
+  "name": "terlik-galaksisi",
   "version": "1.0.0",
   "private": true,
-  "description": "Yıldız Souls — iOS ve Android oyun projesi (Capacitor)",
+  "description": "Terlik Galaksisi — iOS ve Android oyun projesi (Capacitor)",
   "scripts": {
     "kurulum": "npm install && npx cap add android && npx cap add ios && npm run yerel && npm run ikonlar && npx cap sync",
     "yerel": "node scripts/native-ayarlar.js",

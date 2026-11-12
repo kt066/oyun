@@ -1,4 +1,4 @@
-// Yıldız Souls — "npx cap add android/ios" sonrasında yerel ayarları uygular.
+// Terlik Galaksisi — "npx cap add android/ios" sonrasında yerel ayarları uygular.
 // Tekrar çalıştırmak güvenlidir. Ek paket gerektirmez.
 const fs = require('fs');
 const path = require('path');

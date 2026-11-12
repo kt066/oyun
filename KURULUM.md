@@ -1,4 +1,4 @@
-# Yıldız Souls: iOS ve Android'e Çıkış Rehberi
+# Terlik Galaksisi: iOS ve Android'e Çıkış Rehberi
 
 Bu klasör, oyunu App Store ve Google Play'e çıkarmak için hazırlanmış bir **Capacitor 8** projesidir. Oyunun kendisi `www/index.html` dosyasında. Capacitor bu sayfayı gerçek bir iOS ve Android uygulamasının içine yerleştirir.
 
@@ -29,7 +29,7 @@ Bu komut sırasıyla şunları yapar:
 
 iOS klasörü yalnızca Mac'te tam çalışır. Windows'ta komut iOS adımında hata verirse sorun değil; Android tarafı yine hazır olur.
 
-> **Önemli:** `capacitor.config.json` içindeki `appId` değeri (`com.yildizsouls.oyun`) mağazaya ilk yüklemeden sonra **bir daha değiştirilemez**. Kendine ait bir alan adın varsa (`com.seninadin.yildizsouls` gibi), `npm run kurulum` çalıştırmadan önce burayı değiştir.
+> **Önemli:** `capacitor.config.json` içindeki `appId` değeri (`com.terlikgalaksisi.oyun`) mağazaya ilk yüklemeden sonra **bir daha değiştirilemez**. Kendine ait bir alan adın varsa (`com.seninadin.yildizsouls` gibi), `npm run kurulum` çalıştırmadan önce burayı değiştir.
 
 ## 3. Android: Google Play
 
@@ -41,6 +41,19 @@ iOS klasörü yalnızca Mac'te tam çalışır. Windows'ta komut iOS adımında 
 4. Play Console'da yeni uygulama oluştur ve `magaza/MAGAZA.md` dosyasındaki metinleri, `magaza/` klasöründeki görselleri yükle.
 5. **Yeni kişisel hesaplar için kural:** Üretim yayınına geçmeden önce kapalı test yapılması zorunlu. En az **12 test kullanıcısı**, **14 gün boyunca kesintisiz** teste kayıtlı kalmalı. Arkadaş ve aileden 12 kişilik bir liste hazırla. Şirket hesabıyla açarsan bu kural uygulanmaz.
 6. Google Play Ağustos 2026'dan beri yeni uygulamalarda **API 36 (Android 16)** hedefini zorunlu tutuyor. Capacitor 8 bunu varsayılan olarak karşılıyor, ek bir şey yapman gerekmiyor.
+
+
+### Google Play için otomatik AAB (GitHub Actions)
+
+Android Studio'ya gerek kalmadan, depo kendi başına imzalı `.aab` üretebilir:
+
+1. Bir kere yükleme anahtarı üret (bilgisayarda, JDK ile): `keytool -genkeypair -v -keystore yukleme.jks -alias terlik -keyalg RSA -keysize 2048 -validity 10000`
+2. Anahtarı base64'e çevir: Linux/Mac `base64 -w0 yukleme.jks`, Windows PowerShell `[Convert]::ToBase64String([IO.File]::ReadAllBytes("yukleme.jks"))`
+3. GitHub → depo → Settings → Secrets and variables → Actions bölümüne üç gizli değer ekle: `ANDROID_KEYSTORE_B64` (base64 metni), `ANDROID_KEYSTORE_PASS` (anahtar şifresi), `ANDROID_KEY_ALIAS` (`terlik`).
+4. Actions sekmesinden "Android APK ve Play AAB" iş akışını çalıştır. Bitince **TerlikGalaksisi-aab** dosyasını indirip Play Console'a yükle.
+5. `yukleme.jks` dosyasını ve şifreyi yedekle; depoya koyma.
+
+Not: Anahtar tanımlı değilken yalnızca test APK'sı üretilir, AAB üretilmez (geçici anahtarla Play'e yüklemek güvenli değil).
 
 ## 4. iOS: App Store (Mac'te)
 
@@ -65,7 +78,7 @@ iOS klasörü yalnızca Mac'te tam çalışır. Windows'ta komut iOS adımında 
 
 ## 7. Mağazaya çıkmadan önce kontrol listesi
 
-- [ ] İsim kontrolü: "Souls" kelimesi için `MAGAZA.md` içindeki marka notunu oku.
+- [ ] İsim kontrolü: "Terlik Galaksisi" adını TÜRKPATENT marka sorgusunda ve Google Play'de ara (MAGAZA.md içindeki nota bak).
 - [ ] `magaza/gizlilik.html` dosyasına iletişim e-postanı yaz ve herkese açık bir adreste yayınla (GitHub Pages, kendi siten vb.). Her iki mağaza da gizlilik politikası adresi istiyor.
 - [ ] Gerçek bir telefonda en az bir bölümü baştan sona oyna; dokunmatik kontrolleri ve ses seviyesini dene.
 - [ ] Keystore'u yedekle.

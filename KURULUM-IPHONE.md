@@ -13,8 +13,8 @@ Uygulamayı Apple'ın bulutundaki bir Mac derler, TestFlight'a yükler; sen de i
 1. **Apple Developer'a kaydol.** developer.apple.com/programs adresinden iPhone'unla kaydolabilirsin. Onay birkaç saat ile 2 gün sürebilir.
 
 2. **App Store Connect'te uygulama kaydı oluştur.** appstoreconnect.apple.com → Uygulamalar → **+** → Yeni Uygulama.
-   - Platform: iOS. Ad: Yıldız Souls. Dil: Türkçe.
-   - Paket Kimliği (Bundle ID): `com.yildizsouls.oyun`. Listede yoksa önce developer.apple.com → Identifiers bölümünden ekle.
+   - Platform: iOS. Ad: Terlik Galaksisi. Dil: Türkçe.
+   - Paket Kimliği (Bundle ID): `com.terlikgalaksisi.oyun`. Listede yoksa önce developer.apple.com → Identifiers bölümünden ekle.
    - Oluşunca **Genel Bilgiler** sayfasındaki 10 haneli **Apple ID** numarasını not al.
 
 3. **API anahtarı oluştur.** App Store Connect → Kullanıcılar ve Erişim → **Entegrasyonlar** → App Store Connect API → Anahtar oluştur, rol: **App Manager**. `.p8` dosyasını indir (tek seferlik indirilebilir), Issuer ID ve Key ID'yi not al.
@@ -22,7 +22,7 @@ Uygulamayı Apple'ın bulutundaki bir Mac derler, TestFlight'a yükler; sen de i
 4. **Projeyi GitHub'a koy.** Bu klasörün tamamını yeni bir GitHub deposuna yükle (`node_modules` hariç).
 
 5. **Codemagic'i ayarla.** codemagic.io → GitHub ile giriş → **Add application** → depoyu seç.
-   - Team/Personal settings → **Integrations → Developer Portal** → Manage keys → API anahtarını ekle. Adı: `YildizSoulsKey`, ardından Issuer ID, Key ID ve `.p8` dosyası.
+   - Team/Personal settings → **Integrations → Developer Portal** → Manage keys → API anahtarını ekle. Adı: `TerlikGalaksisiKey`, ardından Issuer ID, Key ID ve `.p8` dosyası.
    - `codemagic.yaml` içindeki `APP_STORE_APPLE_ID` değerini 2. adımdaki numarayla değiştir.
 
 6. **Derlemeyi başlat.** Codemagic → **Start new build** → `ios-testflight`. Yaklaşık 15–25 dakika sürer. Bittiğinde uygulama App Store Connect'e yüklenir; Apple'ın işlemesi 10–30 dakika daha alabilir.

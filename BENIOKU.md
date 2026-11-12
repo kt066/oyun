@@ -1,4 +1,4 @@
-# Yıldız Souls — Mobil Proje
+# Terlik Galaksisi — Mobil Proje
 
 - `www/index.html` → oyunun kendisi (mobil için güvenlik ve dokunmatik ayarlı sürüm)
 - `KURULUM.md` → iOS ve Android'e çıkış adımları (buradan başla)
