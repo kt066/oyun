@@ -6,14 +6,21 @@ P=com.terlikgalaksisi.oyun
 adb wait-for-device
 adb shell settings put global window_animation_scale 0; adb shell settings put global transition_animation_scale 0; adb shell settings put global animator_duration_scale 0
 adb logcat -c
+adb shell settings put system accelerometer_rotation 0
+adb shell cmd window user-rotation lock 1 || adb shell settings put system user_rotation 1
+sleep 2
 adb install -r TerlikGalaksisi.apk | tee out/kurulum.txt
 adb shell wm size | tee out/ekran.txt
+adb shell dumpsys window displays | grep -E 'mCurrentRotation|rotation=' | head -3 | tee -a out/ekran.txt
 adb shell am start -W -n $P/.MainActivity | tee out/baslat.txt
 sleep 6; adb exec-out screencap -p > out/01-logo.png
 sleep 4; adb exec-out screencap -p > out/02-logo-son.png
 # menü / hikaye: ekrana dokun, birkaç kez ilerle
+sleep 1
 W=$(adb shell wm size | grep -oE '[0-9]+x[0-9]+' | tail -1 | cut -dx -f1); H=$(adb shell wm size | grep -oE '[0-9]+x[0-9]+' | tail -1 | cut -dx -f2)
-echo "ekran $W x $H" | tee -a out/ekran.txt
+if [ "$H" -gt "$W" ]; then T=$W; W=$H; H=$T; fi
+echo "ekran(yatay) $W x $H" | tee -a out/ekran.txt
+adb exec-out screencap -p > out/00-acilis-ekran.png
 tap(){ adb shell input tap $1 $2; sleep ${3:-1}; }
 tap $((W/2)) $((H/2)) 2; adb exec-out screencap -p > out/03-menu.png
 for i in 1 2 3 4 5 6 7 8; do tap $((W/2)) $((H*3/4)) 1; done

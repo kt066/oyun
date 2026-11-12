@@ -7,7 +7,7 @@ on:
     paths: ['scripts/emulator-testi.sh', '.github/workflows/android-emulator-testi.yml']
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   test:
@@ -15,8 +15,6 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
       - name: APK'yı indir
         env:
           GH_TOKEN: ${{ github.token }}
@@ -40,3 +38,12 @@ jobs:
           name: emulator-sonuclari
           path: out/
           retention-days: 7
+      - name: Sonuçları ayrı bir dala yükle (ekran görüntüleri)
+        if: always()
+        run: |
+          git config user.name "emulator-testi"; git config user.email "noreply@users.noreply.github.com"
+          git switch --orphan emulator-sonuclari
+          git rm -rf . >/dev/null 2>&1 || true
+          cp -r out/. . 2>/dev/null || true
+          rm -f TerlikGalaksisi.apk
+          git add -A && git commit -q -m "Emülatör test sonuçları" && git push -f origin emulator-sonuclari
