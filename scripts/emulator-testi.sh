@@ -38,7 +38,15 @@ for i in $(seq 1 60); do
   [ $i -eq 25 ] && adb exec-out screencap -p > out/05-oyun-oncesi.png
   [ $i -eq 45 ] && adb exec-out screencap -p > out/06-oyun.png
 done
-sleep 3
+sleep 2
+# haritadan bölümü başlat: ortaya dokun (kalkış), girişi geç
+for i in $(seq 1 30); do
+  tap $((W/2)) $((H/2)) 1
+  tap $((W*81/100)) $((H*6/100)) 0.5
+  adb shell input keyevent 66; sleep 0.5
+  [ $i -eq 8 ] && adb exec-out screencap -p > out/06b-bolum-girisi.png
+done
+sleep 5; adb exec-out screencap -p > out/06-oyun.png
 # oyun içinde joystick: basılı tutup sürükle
 for i in 1 2 3; do adb shell input swipe $((W/4)) $((H*2/3)) $((W/4+300)) $((H/2)) 700; adb shell input swipe $((W/4)) $((H*2/3)) $((W/4-150)) $((H*2/3)) 700; done
 adb exec-out screencap -p > out/07-oyun2.png
