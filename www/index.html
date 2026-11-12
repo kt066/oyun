@@ -418,7 +418,7 @@ function mkOffice(g){
  for(let k=0;k<=4;k++){const x=wx+k*(ww/4)-4;q=g.createLinearGradient(x,0,x+8,0);q.addColorStop(0,'#2b3b68');q.addColorStop(.3,'#10182f');q.addColorStop(1,'#080c18');g.fillStyle=q;g.fillRect(x,wy-8,8,wh+14)}
  g.fillStyle='#0d1428';g.fillRect(wx-14,wy-14,ww+28,14);g.fillRect(wx-14,wy+wh,ww+28,16);g.fillStyle='#1d2c52';g.fillRect(wx-14,wy-14,ww+28,2);g.fillStyle='rgba(90,220,255,.9)';g.fillRect(wx-14,wy+wh+16,ww+28,2);
  g.shadowColor='#4df';g.shadowBlur=14;g.fillStyle='rgba(90,220,255,.35)';g.fillRect(wx-14,wy+wh+16,ww+28,2);g.shadowBlur=0;
- g.textAlign='center';g.fillStyle='#9fd8ff';g.font='bold 15px system-ui,sans-serif';try{g.letterSpacing='7px'}catch(e){}g.fillText('YILDIZ SAVUNMA SANAYİİ',W/2+3,28);try{g.letterSpacing='0px'}catch(e){}
+ g.textAlign='center';g.fillStyle='#9fd8ff';g.font='bold 15px system-ui,sans-serif';try{g.letterSpacing='7px'}catch(e){}g.fillText('PIRILTI UZAY SANAYİİ',W/2+3,28);try{g.letterSpacing='0px'}catch(e){}
  g.fillStyle='#fd4';g.beginPath();for(let i=0;i<10;i++){const a=-PI/2+i*PI/5,r=i%2?3:7;g[i?'lineTo':'moveTo'](W/2-185+Math.cos(a)*r,24+Math.sin(a)*r)}g.fill();
  const y0=wy+wh+18;q=g.createLinearGradient(0,y0,0,H);q.addColorStop(0,'#14203f');q.addColorStop(.25,'#0b1429');q.addColorStop(1,'#04070e');g.fillStyle=q;g.fillRect(0,y0,W,H-y0);
  for(let k=0;k<4;k++){const x=wx+k*(ww/4)+30;q=g.createLinearGradient(0,y0,0,H);q.addColorStop(0,'rgba(240,140,130,.18)');q.addColorStop(1,'rgba(240,140,130,0)');g.fillStyle=q;g.beginPath();g.moveTo(x,y0);g.lineTo(x+ww/4-60,y0);g.lineTo(x+ww/4-20+30,H);g.lineTo(x-40,H);g.fill()}

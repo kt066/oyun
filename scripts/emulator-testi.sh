@@ -25,14 +25,16 @@ tap(){ adb shell input tap $1 $2; sleep ${3:-1}; }
 # Android'in "tam ekran" bilgilendirmesini kapat
 tap $((W*64/100)) $((H*49/100)) 1
 tap $((W/2)) $((H/2)) 2; adb exec-out screencap -p > out/03-menu.png
-# hikâye: sağ üstteki GEÇ düğmesine tekrar tekrar bas
-for i in $(seq 1 14); do tap $((W*81/100)) $((H*6/100)) 1; done
-adb exec-out screencap -p > out/04-sonra.png
-# harita / bölüm başlangıcı: ortaya dokun, sonra yine GEÇ
-for i in $(seq 1 6); do tap $((W/2)) $((H/2)) 2; tap $((W*81/100)) $((H*6/100)) 1; done
-adb exec-out screencap -p > out/05-oyun-oncesi.png
-for i in $(seq 1 6); do tap $((W*81/100)) $((H*6/100)) 1; done
-sleep 4; adb exec-out screencap -p > out/06-oyun.png
+# hikâye ve haritayı geç: GEÇ düğmesi, Enter ve ortaya dokunma karışık
+for i in $(seq 1 60); do
+  tap $((W*81/100)) $((H*6/100)) 0.5
+  adb shell input keyevent 66; sleep 0.5
+  [ $((i % 6)) -eq 0 ] && tap $((W/2)) $((H/2)) 1
+  [ $i -eq 10 ] && adb exec-out screencap -p > out/04-sonra.png
+  [ $i -eq 25 ] && adb exec-out screencap -p > out/05-oyun-oncesi.png
+  [ $i -eq 45 ] && adb exec-out screencap -p > out/06-oyun.png
+done
+sleep 3
 # oyun içinde joystick: basılı tutup sürükle
 for i in 1 2 3; do adb shell input swipe $((W/4)) $((H*2/3)) $((W/4+300)) $((H/2)) 700; adb shell input swipe $((W/4)) $((H*2/3)) $((W/4-150)) $((H*2/3)) 700; done
 adb exec-out screencap -p > out/07-oyun2.png
