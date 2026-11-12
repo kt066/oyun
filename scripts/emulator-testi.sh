@@ -22,17 +22,23 @@ if [ "$H" -gt "$W" ]; then T=$W; W=$H; H=$T; fi
 echo "ekran(yatay) $W x $H" | tee -a out/ekran.txt
 adb exec-out screencap -p > out/00-acilis-ekran.png
 tap(){ adb shell input tap $1 $2; sleep ${3:-1}; }
+# Android'in "tam ekran" bilgilendirmesini kapat
+tap $((W*64/100)) $((H*49/100)) 1
 tap $((W/2)) $((H/2)) 2; adb exec-out screencap -p > out/03-menu.png
-for i in 1 2 3 4 5 6 7 8; do tap $((W/2)) $((H*3/4)) 1; done
+# hikâye: sağ üstteki GEÇ düğmesine tekrar tekrar bas
+for i in $(seq 1 14); do tap $((W*81/100)) $((H*6/100)) 1; done
 adb exec-out screencap -p > out/04-sonra.png
-for i in 1 2 3 4 5 6 7 8 9 10 11 12; do tap $((W/2)) $((H*3/4)) 1; done
-sleep 3; adb exec-out screencap -p > out/05-oyun-oncesi.png
-# oyun içinde joystick: basılı tut ve sürükle
-for i in 1 2 3; do adb shell input swipe $((W/4)) $((H*2/3)) $((W/4+250)) $((H/2)) 600; adb shell input swipe $((W/4)) $((H*2/3)) $((W/4-100)) $((H*2/3)) 600; done
-adb exec-out screencap -p > out/06-oyun.png
-adb shell dumpsys gfxinfo $P reset >/dev/null
-for i in $(seq 1 12); do adb shell input swipe $((W/4)) $((H*2/3)) $((W/4+200)) $((H/2-80)) 700; adb shell input swipe $((W/4+200)) $((H/2)) $((W/4-100)) $((H*2/3)) 700; done
+# harita / bölüm başlangıcı: ortaya dokun, sonra yine GEÇ
+for i in $(seq 1 6); do tap $((W/2)) $((H/2)) 2; tap $((W*81/100)) $((H*6/100)) 1; done
+adb exec-out screencap -p > out/05-oyun-oncesi.png
+for i in $(seq 1 6); do tap $((W*81/100)) $((H*6/100)) 1; done
+sleep 4; adb exec-out screencap -p > out/06-oyun.png
+# oyun içinde joystick: basılı tutup sürükle
+for i in 1 2 3; do adb shell input swipe $((W/4)) $((H*2/3)) $((W/4+300)) $((H/2)) 700; adb shell input swipe $((W/4)) $((H*2/3)) $((W/4-150)) $((H*2/3)) 700; done
 adb exec-out screencap -p > out/07-oyun2.png
+adb shell dumpsys gfxinfo $P reset >/dev/null
+for i in $(seq 1 10); do adb shell input swipe $((W/4)) $((H*2/3)) $((W/4+250)) $((H/2-80)) 800; adb shell input swipe $((W/4+250)) $((H/2)) $((W/4-100)) $((H*2/3)) 800; done
+adb exec-out screencap -p > out/08-oyun3.png
 adb shell dumpsys gfxinfo $P | tee out/gfxinfo.txt | grep -E "Total frames|Janky|percentile|Number (Missed|High)" || true
 adb shell dumpsys window | grep -iE "mCurrentFocus|mSystemBarsAppearance|isFullscreen|statusBar.*(isVisible|visible)" | head -8 | tee out/pencere.txt
 adb shell dumpsys activity activities | grep -iE "requestedOrientation|mLastReportedConfiguration|screenOrientation" | head -5 | tee out/yon.txt
