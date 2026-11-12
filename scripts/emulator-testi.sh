@@ -4,6 +4,10 @@ set -u
 mkdir -p out
 P=com.terlikgalaksisi.oyun
 adb wait-for-device
+adb shell settings put global hide_error_dialogs 1
+adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
+adb shell input keyevent KEYCODE_HOME
+sleep 40   # emülatör ve başlatıcı otursun
 adb shell settings put global window_animation_scale 0; adb shell settings put global transition_animation_scale 0; adb shell settings put global animator_duration_scale 0
 adb logcat -c
 adb shell settings put system accelerometer_rotation 0
