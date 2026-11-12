@@ -1,0 +1,6 @@
+  mCurrentFocus=Window{8c8eef u0 com.terlikgalaksisi.oyun/com.terlikgalaksisi.oyun.MainActivity}
+    mTopIsFullscreen=true
+        InsetsSource id=502c0000 type=statusBars frame=[0,0][2400,63] visible=false flags= insetsRoundedCornerFrame=false
+        InsetsSourceControl: {502c0000 mType=statusBars initiallyVisible mSurfacePosition=Point(0, 0) mInsetsHint=Insets{left=0, top=63, right=0, bottom=0}}
+        mSource=InsetsSource id=502c0000 type=statusBars frame=[0,0][2400,63] visible=false flags= insetsRoundedCornerFrame=false
+        mControl=InsetsSourceControl mId=502c0000 mType=statusBars mLeash=Surface(name=Surface(name=77ae42f StatusBar)/@0xb6d011a - animation-leash of insets_animation)/@0x69196f2 mInitiallyVisible=true mSurfacePosition=Point(0, 0) mInsetsHint=Insets{left=0, top=63, right=0, bottom=0} mSkipAnimationOnce=false

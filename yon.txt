@@ -1,0 +1,4 @@
+      mLastReportedConfigurations:
+      requestedOrientation=SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        mLastReportedConfigurations:
+        requestedOrientation=SCREEN_ORIENTATION_NOSENSOR

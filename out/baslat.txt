@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.terlikgalaksisi.oyun/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.terlikgalaksisi.oyun/.MainActivity
+TotalTime: 1047
+WaitTime: 1069
+Complete

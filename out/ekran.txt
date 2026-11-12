@@ -1,0 +1,5 @@
+Physical size: 1080x2400
+      mCurrentRotation=ROTATION_0
+      mDisplayCutout=DisplayCutout{insets=Rect(0, 128 - 0, 0) waterfall=Insets{left=0, top=0, right=0, bottom=0} boundingRect={Bounds=[Rect(0, 0 - 0, 0), Rect(492, 0 - 610, 128), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0)]} cutoutPathParserInfo={CutoutPathParserInfo{displayWidth=1080 displayHeight=2400 physicalDisplayWidth=1080 physicalDisplayHeight=2400 density={2.625} cutoutSpec={M 507,64 a 33,33 0 1 0 66,0 33,33 0 1 0 -66,0 Z @left} rotation={0} scale={1.0} physicalPixelDisplaySizeRatio={1.0}}}}
+      mPrivacyIndicatorBounds=PrivacyIndicatorBounds {static bounds=Rect(827, 0 - 1043, 128) rotation=0}
+ekran(yatay) 2400 x 1080
